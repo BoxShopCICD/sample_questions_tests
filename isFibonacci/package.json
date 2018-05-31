@@ -1,0 +1,10 @@
+{
+  "name": "CodePrep.io_coding_challenges",
+  "author": "Jennifer Bland",
+  "url": "http://www.codeprep.io",
+  "version": "1.0.0",
+  "description": "CodePrep.io presents coding challenges you might face when interviewing for a Full-Stack Developer position",
+  "scripts": {
+    "test": "node ../node_modules/mocha/bin/mocha ./*.test.js"
+  }
+}

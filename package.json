@@ -1,0 +1,34 @@
+{
+  "name": "CodePrep.io_coding_challenges",
+  "author": "Jennifer Bland",
+  "url": "http://www.codeprep.io",
+  "version": "1.0.0",
+  "description": "CodePrep.io presents coding challenges you might face when interviewing for a Full-Stack Developer position",
+  "scripts": {
+    "test": "echo \"Error: run npm test from inside the challange directories or do 'npm run test-all'\" && exit 1",
+    "test-all": "mocha '**/test.js'"
+  },
+  "keywords": [
+    "CodeProp",
+    "full stack",
+    "coding challenge",
+    "whiteboard exercise",
+    "interview program challenge"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/codeprep/coding_challenges"
+  },
+  "bugs": {
+    "url": "https://github.com/codeprep/coding_challenges/issues"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "mocha": "^2.2.4",
+    "should": "^7.1.1",
+    "sinon": "^1.15.3"
+  },
+  "dependencies": {
+    "fs": "0.0.2"
+  }
+}
