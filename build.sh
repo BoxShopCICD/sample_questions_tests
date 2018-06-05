@@ -51,14 +51,14 @@ done
 #########################################
 
 # format results as json (saves to results.json)
-python $WORKSPACE/escape_json.py
+python $TEST_REPO/escape_json.py
 
 # add comment to forked PR
-TEST_OUTPUT_FILE=$WORKSPACE/results.json
+TEST_OUTPUT_FILE=$TEST_REPO/results.json
 #TEST_OUTPUT=$(cat $TEST_OUTPUT_FILE)
 # -- remove this as its now unused code
 REPO_SLUG=BoxShopCICD/sample_questions
-PULL_REQUEST=$(cat $WORKSPACE/pull_request)
+PULL_REQUEST=$(cat $TEST_REPO/pull_request)
 
 curl -H "Authorization: token $GITHUB_TOKEN" -X POST \
 -H "Content-Type: application/json" \
