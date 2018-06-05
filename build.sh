@@ -13,6 +13,7 @@ QUESTIONS=$WORKSPACE/sample_questions
 # - commenting out above clone because if this script is being executed,
 #the tests repo must already have been cloned
 
+cd $WORKSPACE
 git clone https://github.com/BoxShopCICD/sample_questions.git
 
 # get user repo url and pull request number
