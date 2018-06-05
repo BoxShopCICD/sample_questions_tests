@@ -69,10 +69,10 @@ curl -H "Authorization: token $GITHUB_TOKEN" -X POST \
 ###################
 
 # close forked PR
-REPO_SLUG=BoxShopCICD/sample_questions
-PULL_REQUEST=$(cat $WORKSPACE/pull_request)
+#REPO_SLUG=BoxShopCICD/sample_questions
+#PULL_REQUEST=$(cat $WORKSPACE/pull_request)
 
-curl -H "Authorization: token $GITHUB_TOKEN" --request PATCH \
---data "{\"state\": \"closed\"}" \
-"https://api.github.com/repos/$REPO_SLUG/pulls/$PULL_REQUEST"
+#curl -H "Authorization: token $GITHUB_TOKEN" --request PATCH \
+#--data "{\"state\": \"closed\"}" \
+#"https://api.github.com/repos/$REPO_SLUG/pulls/$PULL_REQUEST"
 
