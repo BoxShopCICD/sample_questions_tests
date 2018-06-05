@@ -4,25 +4,23 @@
 TEST_REPO=$WORKSPACE/sample_questions_tests
 QUESTIONS=$WORKSPACE/sample_questions
 
-# clone clean copy of tests repo
+# clone clean copy of tests repo and questions repo
 git clone https://github.com/BoxShopCICD/sample_questions_tests.git
-
-# update local copy of tests repo and npm install
-cd $TEST_REPO
-npm install
-
-# clone clean copy of questions
-cd $WORKSPACE
 git clone https://github.com/BoxShopCICD/sample_questions.git
 
-# get list of files to run tests on
+# get user repo url and pull request number
 URL=$(echo $payload | jq -r '.pull_request.head.repo.html_url').git
 echo $payload | jq -r '.pull_request.number' > $WORKSPACE/pull_request
 
+# get list of files to run tests on
 cd $QUESTIONS
 git remote add user $URL
 git fetch user
 FILES=$(git diff --diff-filter=M --name-only user/master..master)
+
+# npm install tests repo
+cd $TEST_REPO
+npm install
 
 # run tests on files and save output
 for path in ${FILES[@]}
@@ -36,15 +34,14 @@ do
   cd $QUESTIONS
 done
 
-python $QUESTIONS/escape_json.py
+# format results as json (saves to results.json)
+python $WORKSPACE/escape_json.py
 
 # add comment to forked PR
-GITHUB_TOKEN=7340cc1cf8ab5717ee04500fb52ab2821beb9d81
 TEST_OUTPUT_FILE=$WORKSPACE/results.json
 TEST_OUTPUT=$(cat $TEST_OUTPUT_FILE)
 REPO_SLUG=BoxShopCICD/sample_questions
 PULL_REQUEST=$(cat $WORKSPACE/pull_request)
-
 
 curl -H "Authorization: token $GITHUB_TOKEN" -X POST \
 -H "Content-Type: application/json" \
