@@ -1,0 +1,42 @@
+# setup info
+
+  jenkins server configuration:
+    - install jenkins
+      - https://d1.awsstatic.com/Projects/P5505030/aws-project_Jenkins-build-server.pdf
+    - install jq with yum
+
+  github configuration:
+    - create a webhook for the "questions" repo that fires on PR events
+      - assign an auth token to this hook
+
+  jenkins configuration
+    - create a secret text credential with the for the user that will comment and close PRs
+      - name it accordingly to the build.sh script in the "tests" repo
+
+  jenkins job configuration
+    - parameterize the job to take in an argument called "payload"
+    - check "build remotely" and reference the hook auth token from above step
+    - check "delete workspace before build starts"
+    - check "provide Node & npm bin/ folder to PATH"
+    - set NodeJS Installation to "10_3_0"
+    - npmrc should be "-use system default-"
+    - add an execute shell step with the following content:
+
+```
+set +x
+# skip building on PR closes
+STATE=$(echo $payload | jq -r '.pull_request.state')
+if [ "$STATE" == "closed" ] 
+then
+  echo "PR close detected -- skipping build"
+  exit 0
+fi
+set -x
+
+# clone clean copy of tests repo
+git clone https://boxshopbot:$GITHUB_TOKEN@github.com/BoxShopCICD/sample_questions_tests.git
+
+# execute the build script
+cd sample_questions_tests
+./build.sh
+```
