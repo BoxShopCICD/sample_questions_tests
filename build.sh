@@ -3,6 +3,8 @@
 # env vars
 TEST_REPO=$WORKSPACE/sample_questions_tests
 QUESTIONS=$WORKSPACE/sample_questions
+GITHUB_MACHINE_USER=boxshopbot
+REPO_SLUG=BoxShopCICD/sample_questions
 
 #######################################
 # prepare question repo and build env #
@@ -14,7 +16,7 @@ QUESTIONS=$WORKSPACE/sample_questions
 #the tests repo must already have been cloned
 
 cd $WORKSPACE
-git clone https://github.com/BoxShopCICD/sample_questions.git
+git clone https://$GITHUB_MACHINE_USER:$GITHUB_TOKEN@github.com/BoxShopCICD/sample_questions.git
 
 # get user repo url and pull request number
 URL=$(echo $payload | jq -r '.pull_request.head.repo.html_url').git
@@ -55,9 +57,6 @@ python $TEST_REPO/escape_json.py
 
 # add comment to forked PR
 TEST_OUTPUT_FILE=$WORKSPACE/results.json
-#TEST_OUTPUT=$(cat $TEST_OUTPUT_FILE)
-# -- remove this as its now unused code
-REPO_SLUG=BoxShopCICD/sample_questions
 PULL_REQUEST=$(cat $WORKSPACE/pull_request)
 
 curl -H "Authorization: token $GITHUB_TOKEN" -X POST \
@@ -70,7 +69,6 @@ curl -H "Authorization: token $GITHUB_TOKEN" -X POST \
 ###################
 
 # close forked PR
-REPO_SLUG=BoxShopCICD/sample_questions
 PULL_REQUEST=$(cat $WORKSPACE/pull_request)
 
 curl -H "Authorization: token $GITHUB_TOKEN" --request PATCH \
