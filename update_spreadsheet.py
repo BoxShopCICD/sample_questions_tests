@@ -28,7 +28,7 @@ parser.add_argument('--range', help="A1 range notation of sheet", required=True)
 args = vars(parser.parse_args())
 
 first = args['fullname'].split()[0]
-last = args['fullname'].split()[1]
+last = args['fullname'].split()[1] if len(args['fullname'].split()) > 1 else 'null'
 email = args['email']
 user = args['username']
 today = str(datetime.date.today())
