@@ -29,7 +29,7 @@ parser.add_argument('--range', help="A1 range notation of sheet", required=True)
 args = vars(parser.parse_args())
 
 email = args['email']
-if not email:
+if email == 'null':
     print "User email not available. Skipping spreadsheet update"
     sys.exit(0)
 first = args['fullname'].split()[0]
