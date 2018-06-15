@@ -13,6 +13,7 @@ BEFORE RUNNING:
 """
 from pprint import pprint
 import os
+import sys
 from googleapiclient import discovery
 from google.oauth2 import service_account
 import datetime
@@ -27,9 +28,12 @@ parser.add_argument('--username', help='Username of GitHub user', required=True)
 parser.add_argument('--range', help="A1 range notation of sheet", required=True)
 args = vars(parser.parse_args())
 
+email = args['email']
+if not email:
+    print "User email not available. Skipping spreadsheet update"
+    sys.exit(0)
 first = args['fullname'].split()[0]
 last = args['fullname'].split()[1] if len(args['fullname'].split()) > 1 else 'null'
-email = args['email']
 user = args['username']
 today = str(datetime.date.today())
 
