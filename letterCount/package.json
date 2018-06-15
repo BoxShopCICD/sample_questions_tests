@@ -1,0 +1,14 @@
+{
+  "name": "lettercount",
+  "version": "1.0.0",
+  "description": "count frequency of characters in a string",
+  "main": "index.js",
+  "scripts": {
+    "test": "node ../node_modules/mocha/bin/mocha ./*.test.js"
+  },
+  "author": "Jennifer Bland",
+  "license": "ISC",
+  "devDependencies": {
+    "should": "^13.2.1"
+  }
+}
