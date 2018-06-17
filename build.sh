@@ -39,7 +39,7 @@ do
   cp $path $TEST_REPO/$path
   cd $(dirname $TEST_REPO/$path)
   set +e
-  node ../node_modules/mocha/node ../node_modules/mocha/bin/mocha ./*.test.js >> $WORKSPACE/results
+  node ../node_modules/mocha/bin/mocha ./*.test.js >> $WORKSPACE/results
   set -e
   cd $QUESTIONS
 done
