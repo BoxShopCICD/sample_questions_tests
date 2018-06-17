@@ -1,10 +1,9 @@
 #!/bin/bash
+set -x
 
 # env vars
-TEST_REPO=$WORKSPACE/sample_questions_tests
-QUESTIONS=$WORKSPACE/sample_questions
-GITHUB_MACHINE_USER=boxshopbot
-REPO_SLUG=BoxShopCICD/sample_questions
+TEST_REPO=$WORKSPACE/coding_questions_tests
+QUESTIONS=$WORKSPACE/interview-questions
 
 #######################################
 # prepare question repo and build env #
@@ -16,7 +15,7 @@ REPO_SLUG=BoxShopCICD/sample_questions
 #the tests repo must already have been cloned
 
 cd $WORKSPACE
-git clone https://$GITHUB_MACHINE_USER:$GITHUB_TOKEN@github.com/BoxShopCICD/sample_questions.git
+git clone https://climbhigh:$GITHUB_TOKEN@github.com/ratracegrad/interview-questions
 
 # get user repo url and pull request number
 URL=$(echo $payload | jq -r '.pull_request.head.repo.html_url').git
@@ -43,7 +42,8 @@ do
   cp $path $TEST_REPO/$path
   cd $(dirname $TEST_REPO/$path)
   set +e
-  npm test >> $WORKSPACE/results
+  #npm test >> $WORKSPACE/results ---- this prints extra output to the screen by npm
+  node ../node_modules/mocha/bin/mocha ./*.test.js >> $WORKSPACE/results
   set -e
   cd $QUESTIONS
 done
@@ -57,6 +57,9 @@ python $TEST_REPO/escape_json.py
 
 # add comment to forked PR
 TEST_OUTPUT_FILE=$WORKSPACE/results.json
+#TEST_OUTPUT=$(cat $TEST_OUTPUT_FILE)
+# -- remove this as its now unused code
+REPO_SLUG=ratracegrad/interview-questions
 PULL_REQUEST=$(cat $WORKSPACE/pull_request)
 
 curl -H "Authorization: token $GITHUB_TOKEN" -X POST \
@@ -69,9 +72,9 @@ curl -H "Authorization: token $GITHUB_TOKEN" -X POST \
 ###################
 
 # close forked PR
+REPO_SLUG=ratracegrad/interview-questions
 PULL_REQUEST=$(cat $WORKSPACE/pull_request)
 
 curl -H "Authorization: token $GITHUB_TOKEN" --request PATCH \
 --data "{\"state\": \"closed\"}" \
 "https://api.github.com/repos/$REPO_SLUG/pulls/$PULL_REQUEST"
-
