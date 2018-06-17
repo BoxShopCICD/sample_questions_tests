@@ -1,4 +1,5 @@
 #!/bin/bash
+set -x
 
 # env vars
 TEST_REPO=$WORKSPACE/sample_questions_tests
